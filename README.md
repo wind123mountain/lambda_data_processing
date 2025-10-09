@@ -41,11 +41,6 @@ Whole lambda architecture is created out of few docker containers.
 
 Every container is running within same network (**lambda-network**).
 
-To validate the data and quality of the data and the results kafka is also writing 
-all data to cassandra. While hadoop is processing, spark is catching up
-new incoming data and serving them as a real-time-view. Is hadoop done
-processing spark resets and catching up from the beginning.
-
 ## Grafana Setup
 
 To visualize the whole process you can actually use the lambda templates 
