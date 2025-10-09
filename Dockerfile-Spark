@@ -1,0 +1,11 @@
+FROM apache/spark:3.4.3-python3
+
+
+USER root
+
+RUN pip3 install kafka-python --no-cache-dir
+RUN pip3 install cassandra-driver --no-cache-dir
+RUN pip3 install py4j --no-cache-dir
+RUN pip3 install jupyterlab notebook numpy --no-cache-dir
+
+EXPOSE 8888

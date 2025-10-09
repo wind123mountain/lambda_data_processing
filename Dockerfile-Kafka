@@ -1,0 +1,5 @@
+FROM confluentinc/cp-kafka:7.6.1
+
+RUN pip3 install kafka-python --user
+RUN pip3 install cassandra-driver --user
+RUN pip3 install pyspark --user

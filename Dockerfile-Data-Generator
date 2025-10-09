@@ -1,0 +1,8 @@
+FROM python:3.11
+
+WORKDIR /src
+
+RUN pip install cassandra-driver
+RUN pip install kafka-python
+RUN pip install pyspark
+RUN pip install mrjob

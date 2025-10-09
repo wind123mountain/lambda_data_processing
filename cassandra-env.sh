@@ -1,0 +1,2 @@
+echo 'JVM_OPTS="-Xms512m -Xmx512m -XX:+UseG1GC -XX:MaxMetaspaceSize=128m -Djava.net.preferIPv4Stack=true -Dcassandra-foreground=yes -XX:+HeapDumpOnOutOfMemoryError -XX:+AlwaysPreTouch -XX:-UseBiasedLocking -XX:+UseTLAB -XX:+ResizeTLAB -XX:+UseNUMA -XX:+PerfDisableSharedMem -Dcassandra.ignore_dc=true"' > cassandra-env.sh
+chmod +x cassandra-env.sh

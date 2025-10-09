@@ -1,0 +1,23 @@
+FROM cassandra:4.1.4
+
+ENV PYTHON_VERSION=3.8.12
+ENV PYTHON_HOME=/usr/local/python${PYTHON_VERSION}
+
+
+RUN wget https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz && \
+    tar -xf Python-${PYTHON_VERSION}.tgz
+
+
+RUN ./configure --prefix=${PYTHON_HOME} --enable-optimizations && \
+    make -j$(nproc) && \
+    make altinstall
+
+RUN rm -rf /tmp/Python-${PYTHON_VERSION} && \
+    apt-get autoremove -y && \
+    apt-get clean
+
+ENV PATH="${PYTHON_HOME}/bin:${PATH}"
+
+RUN ln -s ${PYTHON_HOME}/bin/python${PYTHON_VERSION} /usr/local/bin/python && \
+    ln -s ${PYTHON_HOME}/bin/pip${PYTHON_VERSION} /usr/local/bin/pip
+CMD ["tail", "-f", "/dev/null"]
