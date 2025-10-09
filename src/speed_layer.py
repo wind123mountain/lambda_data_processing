@@ -117,7 +117,7 @@ def start_stream():
     df = parsed_df.withColumn("event_ts", (col("timestamp") / 1000).cast("timestamp"))
 
     # 3️⃣ Gom nhóm theo cửa sổ 20s và theo loại event
-    event_rate_20s = df.groupBy(
+    event_rate_20s = df.withWatermark("event_ts", "15 seconds").groupBy(
         window(col("event_ts"), "15 seconds"),
         col("event")
     ).count() \
