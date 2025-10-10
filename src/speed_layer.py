@@ -97,6 +97,7 @@ def start_stream():
         .option("kafka.bootstrap.servers", "broker:29092") \
         .option("subscribe", "event_message") \
         .option("startingOffsets", "latest") \
+        .option("kafka.group.id", "speed_layer") \
         .load()
 
     # Grouping and counting

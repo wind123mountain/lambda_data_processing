@@ -79,6 +79,7 @@ def start_stream():
         .format("kafka") \
         .option("kafka.bootstrap.servers", "broker:29092") \
         .option("subscribe", "event_message") \
+        .option("kafka.group.id", "batch_layer") \
         .load()
     
     events = df.select(from_json(col("value").cast("string"), schema).alias("data")).select("data.*")
