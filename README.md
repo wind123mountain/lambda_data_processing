@@ -1,4 +1,4 @@
-# lambda-kappa-architecture
+# lambda-architecture
 
 ## Requirements
 
