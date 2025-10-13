@@ -28,8 +28,13 @@ After all containers are running we need to configure and start few things.
 Within the folder \src we can find few python files. Those files are necessary 
 to generate data and tell Kafka, Spark, Hadoop and Cassandra what to do. 
 
-![architecture](./image/kien_truc.png)
-Figure 1: Overview-Architecture
+<p align="center">
+  <img src="image/kien_truc.png" width="50%">
+  <br>
+  <em>Figure 1: Overview Architecture</em>
+</p>
+
+
 
 ![lambda-architecture](./image/lambda.png)
 Figure 2: Lambda-Architecture
