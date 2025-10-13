@@ -29,7 +29,7 @@ Within the folder \src we can find few python files. Those files are necessary
 to generate data and tell Kafka, Spark, Hadoop and Cassandra what to do. 
 
 <p align="center">
-  <img src="image/kien_truc.png" width="50%">
+  <img src="image/overview_architecture.png" width="50%">
   <br>
   <em>Figure 1: Overview Architecture</em>
 </p>
