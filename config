@@ -1,28 +1,18 @@
 JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.412.b08-1.el7_9.x86_64/jre
-
 HDFS_NAMENODE_USER=root
 HDFS_DATANODE_USER=root
 HDFS_SECONDARYNAMENODE_USER=root
-
-# Khai báo người dùng cho các service YARN
 YARN_RESOURCEMANAGER_USER=root
 YARN_NODEMANAGER_USER=root
-
-
 CORE-SITE.XML_fs.defaultFS=hdfs://hadoop:8020
-
-# HDFS-SITE.XML: Dùng hostname mới cho RPC và 0.0.0.0 cho web UI
 HDFS-SITE.XML_dfs.namenode.rpc-address=hadoop:8020
-HDFS-SITE.XML_dfs.namenode.http-address=0.0.0.0:9870  # SỬA: Bind Web UI
+HDFS-SITE.XML_dfs.namenode.http-address=0.0.0.0:9870
 HDFS-SITE.XML_dfs.namenode.rpc-bind-host=0.0.0.0
-
 HDFS-SITE.XML_dfs.permissions.enabled=false
 HDFS-SITE.XML_dfs.replication=1
-
-# YARN-SITE.XML: Dùng hostname mới và 0.0.0.0 cho web UI
+HDFS-SITE.XML_dfs.datanode.hostname=datanode
 YARN-SITE.XML_yarn.resourcemanager.hostname=hadoop
-YARN-SITE.XML_yarn.resourcemanager.webapp.address=0.0.0.0:8088 # SỬA: Bind Web UI
-
+YARN-SITE.XML_yarn.resourcemanager.webapp.address=0.0.0.0:8088
 HDFS-SITE.XML_dfs.replication=1
 MAPRED-SITE.XML_mapreduce.framework.name=yarn
 MAPRED-SITE.XML_yarn.app.mapreduce.am.env=HADOOP_MAPRED_HOME=$HADOOP_HOME

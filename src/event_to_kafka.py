@@ -32,7 +32,7 @@ def event_to_kafka():
         producer.send("event_message", item)
         logging.warning(item)
     
-        time.sleep(3)
+        time.sleep(1)
     
     producer.flush()
     producer.close()

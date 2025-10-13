@@ -149,7 +149,6 @@ services:
     ports:
       - "9870:9870"   # HDFS NameNode WebUI
       - "8088:8088"   # YARN ResourceManager WebUI
-      - "8020:8020"
     env_file:
       - ./config
     environment:
@@ -161,6 +160,20 @@ services:
     networks:
       - lambda-network
     mem_limit: 1g
+
+  datanode:
+    build:
+      dockerfile: Dockerfile-Hadoop
+    environment:
+      JAVA_HOME: /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.412.b08-1.el7_9.x86_64/jre
+    command: ["/bin/bash", "hdfs", "datanode"]    
+    depends_on:
+      - hadoop
+    env_file:
+      - ./config
+    networks:
+      - lambda-network
+    mem_limit: 1024m
 
   #################################################################################################
   # GRAFANA

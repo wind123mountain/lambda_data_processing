@@ -79,7 +79,7 @@ def start_stream():
     spark.sparkContext.setLogLevel("WARN")
     spark.conf.set("spark.sql.adaptive.enabled", "false")
     spark.conf.set("spark.sql.streaming.statefulOperator.checkCorrectness.enabled", "false")
-    spark.conf.set("spark.sql.shuffle.partitions", "4")
+    spark.conf.set("spark.sql.shuffle.partitions", "2")
 
     # Defining the data structure (like columns of the table and dtypes)
     schema = StructType([
@@ -108,7 +108,7 @@ def start_stream():
 
     # Writing cassandra
     query = result_df.writeStream \
-        .trigger(processingTime="10 seconds") \
+        .trigger(processingTime="5 seconds") \
         .outputMode("complete") \
         .foreachBatch(write_to_cassandra) \
         .option("spark.cassandra.connection.host", "cassandra1") \
@@ -118,8 +118,8 @@ def start_stream():
     df = parsed_df.withColumn("event_ts", (col("timestamp") / 1000).cast("timestamp"))
 
     # 3️⃣ Gom nhóm theo cửa sổ 20s và theo loại event
-    event_rate_20s = df.withWatermark("event_ts", "15 seconds").groupBy(
-        window(col("event_ts"), "15 seconds"),
+    event_rate_20s = df.withWatermark("event_ts", "10 seconds").groupBy(
+        window(col("event_ts"), "10 seconds"),
         col("event")
     ).count() \
     .select(
@@ -136,7 +136,7 @@ def start_stream():
     pivot_df = pivot_df.na.fill(0, ["n_view", "addtocart", "transaction"])
 
     metrics_query = pivot_df.writeStream \
-            .trigger(processingTime="20 seconds") \
+            .trigger(processingTime="10 seconds") \
             .outputMode("update") \
             .foreachBatch(lambda batch_df, batch_id: batch_df.write
                         .format("org.apache.spark.sql.cassandra")

@@ -14,15 +14,13 @@ echo "Starting Namenode..."
 hdfs namenode &
 
 # 2. Khởi động Datanode (Nên chạy sau Namenode)
-echo "Starting Datanode..."
-hdfs datanode &
+# echo "Starting Datanode..."
+# hdfs datanode &
 
 # 3. Khởi động ResourceManager
 echo "Starting ResourceManager..."
 yarn resourcemanager &
 
-# 4. Chạy các script rewrite cần thiết (nếu có)
-# Ví dụ: /rewrite_mapred_site.sh
 
 # 5. Khởi động Nodemanager
 echo "Starting Nodemanager..."
