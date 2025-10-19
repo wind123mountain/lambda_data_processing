@@ -36,21 +36,6 @@ session.execute("""
     )
 """)
 
-def write_to_cassandra(batch_df, batch_id):
-    """
-    Writing every batch to Cassandra
-    """
-
-    batch_df_with_meta = batch_df \
-        .withColumn("id", uuid_udf()) \
-        .withColumn("time_stamp", current_timestamp())
-
-    # Ghi vào Cassandra
-    batch_df_with_meta.write \
-        .format("org.apache.spark.sql.cassandra") \
-        .options(table="real_time_view", keyspace="event_data_view") \
-        .mode("append") \
-        .save()
 
 def start_stream():
     """
@@ -83,6 +68,8 @@ def start_stream():
         .load()
     
     events = df.select(from_json(col("value").cast("string"), schema).alias("data")).select("data.*")
+    events = events.withColumn("timestamp", (col("timestamp") / 1000).cast("timestamp"))
+    events = events.withWatermark("timestamp", "20 seconds").dropDuplicates(["visitorid", "timestamp"])
 
     raw_query = events.writeStream \
         .format("parquet") \

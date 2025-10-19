@@ -104,6 +104,9 @@ def start_stream():
     parsed_df = df.selectExpr("CAST(value AS STRING)") \
         .select(from_json(col("value"), schema).alias("data")) \
         .select("data.*")
+    
+    parsed_df = parsed_df.withColumn("event_ts", (col("timestamp") / 1000).cast("timestamp"))
+    parsed_df = parsed_df.withWatermark("event_ts", "20 seconds").dropDuplicates(["visitorid", "event_ts"])
     result_df = parsed_df.groupBy("event").count()
 
     # Writing cassandra
@@ -113,12 +116,9 @@ def start_stream():
         .foreachBatch(write_to_cassandra) \
         .option("spark.cassandra.connection.host", "cassandra1") \
         .start()
-    
-    # 2️⃣ Chuyển timestamp
-    df = parsed_df.withColumn("event_ts", (col("timestamp") / 1000).cast("timestamp"))
 
-    # 3️⃣ Gom nhóm theo cửa sổ 20s và theo loại event
-    event_rate_20s = df.withWatermark("event_ts", "10 seconds").groupBy(
+    # 3️⃣ Gom nhóm theo cửa sổ 10s và theo loại event
+    event_rate_20s = parsed_df.withWatermark("event_ts", "10 seconds").groupBy(
         window(col("event_ts"), "10 seconds"),
         col("event")
     ).count() \

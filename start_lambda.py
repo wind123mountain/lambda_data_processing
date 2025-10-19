@@ -43,6 +43,7 @@ def main():
 
     commands = [
         ("hadoop", ["/opt/hadoop/bin/hdfs", "dfsadmin", "-safemode", "leave"]),
+        ("hadoop", ["/opt/hadoop/bin/hdfs", "dfs", "-rm", "-r", "hdfs://hadoop:8020/checkpoints"]),
 
         ("spark1", ["/opt/spark/bin/spark-submit",
                           "--master", "spark://spark1:7077",
